@@ -31,7 +31,7 @@ function Farm.findSeeds()
     -- This function will sort through the inventory and return the slot the seeds are in
     -- LONG TERM: if out of seeds will request more seeds
     local selectedData = turtle.getItemDetail()
-    if (string.find(data.name, "seeds")) then
+    if (string.find(selectedData.name, "seeds")) then
         return
     end
     for i = 16, 1, -1 do
