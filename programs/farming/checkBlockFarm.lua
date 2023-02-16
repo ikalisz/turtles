@@ -9,10 +9,6 @@ function checkBlock(dir)
         print("No direction specified, checking forward of turtle")
         dir = "forward"
     end
-        
-    
-
-    print("Checking block in direction ", dir)
 
     if (dir == "forward") then
         local success, blockData = turtle.inspect()

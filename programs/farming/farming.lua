@@ -32,17 +32,19 @@ function Farm.findSeeds()
     -- This function will sort through the inventory and return the slot the seeds are in
     -- LONG TERM: if out of seeds will request more seeds
     local selectedData = turtle.getItemDetail()
-    if (string.find(selectedData.name, "seeds")) then
-        return
+    if selectedData then
+        if (string.find(selectedData.name, "seeds")) then
+            return
+        end
     end
 
-    for i = 16, 1, -1 do
+    for i = 1, 16, 1 do
         print("SEARCHING FOR SEEDS AT ITEM: ", tostring(i))
         local data = turtle.getItemDetail(i)
         if data then
             if (string.find(data.name, "seeds")) then
                 select (i)
-                break
+                return
             end
         end
     end
@@ -50,10 +52,13 @@ end
 
 function Farm.depositLoot()
     local depositChest = peripheral.wrap("back")
+    print("")
     for i = 16, 1, -1 do
         local data = turtle.getItemDetail(i)
-        if (Farm.checkItem(data, "seeds") == false and Farm.checkItem(data, "ender_storage") == false) then
-            depositChest.pullItems("forward", i, 64)
+        if data then
+            if (string.find(data.name, "seeds") == nil and string.find(data.name, "ender_storage") == nil) then
+                depositChest.pullItems("west", i, 64)
+            end
         end
     end
 end
@@ -61,10 +66,6 @@ end
 function Farm.nextCrop()
     -- Need to determine where in the grid the turtle is and turn accordingly
     -- If Y is maxed, we are at the last row, need to see if we are at the top or bottom
-    print("Current X Position: ", tostring(curXPos))
-    print("Current Y Position: ", tostring(curYPos))
-    print("End X Position: ", tostring(endXPos))
-    print("End Y Position: ", tostring(endYPos))
     if (curXPos == endXPos and curYPos == endYPos) then
         if ((curXPos % 2) ~= 0) then
             turtle.turnRight()
@@ -113,6 +114,7 @@ function Farm.handleRow()
         Farm.checkCrop()
         Farm.nextCrop()
     end
+    Farm.depositLoot()
 end
 
 Farm.handleRow()
