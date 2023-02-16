@@ -11,7 +11,7 @@ local curXPos = 1
 local curYPos = 1
 local oddRows = (rows % 2) == 1
 local endXPos = columns -- Will always be the last column in the grid
-local endYPost = ((rows % 2) == 1) and rows or 1 -- If rows is odd, then the end will be the last row. If even, then the end will be the first row
+local endYPos = oddRows and rows or 1 -- If rows is odd, then the end will be the last row. If even, then the end will be the first row
 local crops = rows * columns -- Total number of crops in grid aka total number of moves to make
 
 -- TO DO: add a check to see if seeds/crop are full and to deposit if so
@@ -27,32 +27,51 @@ function Farm.checkCrop()
     end
 end
 
+function Farm.checkItem(item, name)
+    if (string.find(item.name, name)) then
+        return true
+    else
+        return false
+    end
+end
+
 function Farm.findSeeds()
     -- This function will sort through the inventory and return the slot the seeds are in
     -- LONG TERM: if out of seeds will request more seeds
     local selectedData = turtle.getItemDetail()
-    if (string.find(selectedData.name, "seeds")) then
-        return
-    end
+    if (Farm.checkItem(selectedData, "seeds")) return
     for i = 16, 1, -1 do
         local data = turtle.getItemDetail(i)
-        if (string.find(data.name, "seed")) then
+        if (Farm.checkItem(data, "seeds")) then
             select (i)
             break
         end
     end
 end
 
+function Farm.depositLoot()
+    local depositChest = peripheral.wrap("back")
+    for i = 16, 1, -1 do
+        local data = turtle.getItemDetail(i)
+        if (Farm.checkItem(data, "seeds") == false and Farm.checkItem(data, "ender_storage") == false) then
+            depositChest.pullItems("forward", i, 64)
+        end
+    end
+end
+            
 function Farm.nextCrop()
     -- Need to determine where in the grid the turtle is and turn accordingly
     -- If Y is maxed, we are at the last row, need to see if we are at the top or bottom
     print("Current X Position: ", tostring(curXPos))
     print("Current Y Position: ", tostring(curYPos))
+    print("End X Position: ", tostring(endXPos))
+    print("End Y Position: ", tostring(endYPos))
     if (curXPos == endXPos and curYPos == endYPos) then
         if ((curXPos % 2) ~= 0) then
             turtle.turnRight()
             turtle.turnRight()
         end
+        print("RESETING")
         Move.reset(curXPos, curYPos)
         curXPos = 1
         curYPos = 1
@@ -82,7 +101,6 @@ end
 function Farm.farmCrop()
     local didDig = turtle.digDown()
     if (didDig) then
-        -- Need to add findSeeds method that will find which inventory slot seeds are in
         turtle.suckDown()
         Farm.findSeeds()
         turtle.placeDown()
