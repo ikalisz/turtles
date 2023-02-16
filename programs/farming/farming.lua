@@ -35,13 +35,13 @@ function Farm.nextCrop()
         curXPos = 1
         curYPos = 1
         return
-    else if (curYPos == rows) then
+    elseif (curYPos == rows) then
         turtle.turnRight()
         Move.forward(1)
         turtle.turnRight()
         curXPos = curXPos + 1
         return
-    else if (curYPos == 1 and curXPos ~= 1) then
+    elseif (curYPos == 1 and curXPos ~= 1) then
         turtle.turnLeft()
         Move.forward(1)
         turtle.turnLeft()
