@@ -24,4 +24,15 @@ function Move.backward(number)
 end
 
 function Move.reset(x, y)
-    for i = x, 1, -1
+    -- This function assums that the turtle is facing south (towards the bottom of the y axis)
+    for i = y, 2, -1 do
+        Move.forward(1)
+    end
+    turtle.turnRight()
+    for j = x, 2, -1 do
+        Move.forward(1)
+    end
+    turtle.turnRight()
+end
+
+return Move

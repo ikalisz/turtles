@@ -30,21 +30,39 @@ function Farm.nextCrop()
     -- Need to determine where in the grid the turtle is and turn accordingly
     -- If Y is maxed, we are at the last row, need to see if we are at the top or bottom
     if (curXPos == endXPos and curYPos == endYPos) then
-        Move.reset()
+        Move.reset(curXPos, curYPos)
         curXPos = 1
         curYPos = 1
         return
-    end
-    if (curYPos == rows) then
+    else if (curYPos == rows) then
         turtle.turnRight()
         Move.forward(1)
         turtle.turnRight()
-        
+        curXPos = curXPos + 1
         return
-    end
-    if (curYPos == 1 and curXPos ~= 1) then
+    else if (curYPos == 1 and curXPos ~= 1) then
         turtle.turnLeft()
         Move.forward(1)
         turtle.turnLeft()
+        curXPos = curXPos + 1
+        return
+    else 
+        Move.forward(1)
+        if ((curXPos % 2) == 0) then
+            curYPos = curYPos - 1
+        else 
+            curYPos = curYPos + 1
+        end
+    end
+end
+
+function Farm.farmCrop()
+    local didDig = turtle.digDown()
+    if (didDig) then
+        -- Need to add findSeeds method that will find which inventory slot seeds are in
+        turtle.suckDown()
+        turtle.select(2)
+        turtle.placeDown()
+        turtle.select(1)
     end
 end
