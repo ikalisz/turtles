@@ -75,3 +75,5 @@ function Farm.handleRow()
     end
     Farm.reset()
 end
+
+Farm.handleRow()
