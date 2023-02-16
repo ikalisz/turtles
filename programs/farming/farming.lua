@@ -75,6 +75,7 @@ function Farm.nextCrop()
         Move.reset(curXPos, curYPos)
         curXPos = 1
         curYPos = 1
+        Farm.depositLoot()
         return
     elseif (curYPos == rows and (curXPos % 2) ~= 0) then
         turtle.turnRight()
