@@ -6,12 +6,15 @@ local columns = 7 -- This is the number of columns in the grid
 local rows = 13 -- This is the number of rows in the grid
 local checkBlock = require('checkBlockFarm')
 local Farm = {}
+local Helpers = require('helpers')
+local Move = Helpers.Move
 local Move = require('move')
 local curXPos = 1
 local curYPos = 1
 local oddRows = (rows % 2) == 1
 local endXPos = columns -- Will always be the last column in the grid
 local endYPost = ((rows % 2) == 1) and rows or 1 -- If rows is odd, then the end will be the last row. If even, then the end will be the first row
+local crops = rows * columns -- Total number of crops in grid aka total number of moves to make
 
 -- TO DO: add a check to see if seeds/crop are full and to deposit if so
 -- Add state to remember where the turtle was located before deposit
@@ -65,4 +68,12 @@ function Farm.farmCrop()
         turtle.placeDown()
         turtle.select(1)
     end
+end
+
+function Farm.handleRow()
+    for i = crops, 2, -1 do
+        Farm.checkCrop()
+        Farm.nextCrop()
+    end
+    Farm.reset()
 end
