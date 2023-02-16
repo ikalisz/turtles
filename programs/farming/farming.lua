@@ -37,10 +37,13 @@ function Farm.findSeeds()
     end
 
     for i = 16, 1, -1 do
+        print("SEARCHING FOR SEEDS AT ITEM: ", tostring(i))
         local data = turtle.getItemDetail(i)
-        if (string.find(data.name, "seeds")) then
-            select (i)
-            break
+        if data then
+            if (string.find(data.name, "seeds")) then
+                select (i)
+                break
+            end
         end
     end
 end
