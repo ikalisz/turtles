@@ -1,7 +1,3 @@
-print("Please specify a direction to inspect")
-print("The options are: forward, up, down")
-local direction = io.read()
-
 function checkBlock(dir)
     if (dir == nil) then
         print("ERROR: no direction specified")
