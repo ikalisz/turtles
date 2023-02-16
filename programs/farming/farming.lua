@@ -27,22 +27,18 @@ function Farm.checkCrop()
     end
 end
 
-function Farm.checkItem(item, name)
-    if (string.find(item.name, name)) then
-        return true
-    else
-        return false
-    end
-end
 
 function Farm.findSeeds()
     -- This function will sort through the inventory and return the slot the seeds are in
     -- LONG TERM: if out of seeds will request more seeds
     local selectedData = turtle.getItemDetail()
-    if (Farm.checkItem(selectedData, "seeds")) return
+    if (string.find(selectedData.name, "seeds")) then
+        return
+    end
+
     for i = 16, 1, -1 do
         local data = turtle.getItemDetail(i)
-        if (Farm.checkItem(data, "seeds")) then
+        if (string.find(data.name, "seeds")) then
             select (i)
             break
         end
