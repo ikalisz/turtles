@@ -1,0 +1,72 @@
+
+local gridWidth = 3 -- Width of the grid
+local gridDepth = 3 -- Depth of the grid
+local turtleSpacing = 5 -- Spacing between turtles
+local startX = -turtleSpacing * (gridWidth - 1) / 2 -- X coordinate of the first turtle
+local startY = 0 -- Y coordinate of the turtles
+local startZ = -turtleSpacing * (gridDepth - 1) / 2 -- Z coordinate of the first turtle
+
+
+for i = 1, gridWidth * gridDepth do
+  Calculate the coordinates of the current turtle
+  local x = startX + turtleSpacing * ((i - 1) % gridWidth)
+  local z = startZ + turtleSpacing * math.floor((i - 1) / gridWidth)
+ 
+  local turtle = peripheral.wrap("front")
+  turtle.select(1)
+  turtle.dig()
+  turtle.place()
+  turtle.turnRight()
+  turtle.turnRight()
+  turtle.forward()
+  turtle.turnRight()
+  turtle.turnRight()
+  turtle.dig()
+  turtle.turnRight()
+  turtle.forward()
+  turtle.turnLeft()
+  turtle.select(2)
+  turtle.place()
+  turtle.turnRight()
+  turtle.forward()
+  turtle.turnLeft()
+
+ 
+  turtle.up()
+  turtle.forward()
+  turtle.forward()
+  turtle.turnRight()
+  turtle.forward()
+  turtle.forward()
+  turtle.forward()
+
+ 
+  for j = 1, 10 do
+    for k = 1, 10 do
+      turtle.dig()
+      turtle.forward()
+    end
+    turtle.turnRight()
+    turtle.dig()
+    turtle.forward()
+    turtle.turnRight()
+    for k = 1, 10 do
+      turtle.dig()
+      turtle.forward()
+    end
+    turtle.turnLeft()
+    turtle.dig()
+    turtle.forward()
+    turtle.turnLeft()
+  end
+
+ 
+  turtle.turnRight()
+  turtle.turnRight()
+  turtle.forward()
+  turtle.forward()
+  turtle.forward()
+  turtle.turnRight()
+  turtle.forward()
+  turtle.turnLeft()
+end
