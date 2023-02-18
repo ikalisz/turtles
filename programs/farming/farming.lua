@@ -44,7 +44,7 @@ function Farm.findSeeds()
         local data = turtle.getItemDetail(i)
         if data then
             if (string.find(data.name, "seeds")) then
-                select (i)
+                turtle.select(i)
                 return
             end
         end
@@ -117,6 +117,7 @@ function Farm.handleRow()
             Farm.nextCrop()
         end
         Farm.depositLoot()
+        os.sleep(240)
     end
 end
 
