@@ -13,7 +13,8 @@ local oddRows = (rows % 2) == 1
 local endXPos = columns -- Will always be the last column in the grid
 local endYPos = oddRows and rows or 1 -- If rows is odd, then the end will be the last row. If even, then the end will be the first row
 local crops = rows * columns -- Total number of crops in grid aka total number of moves to make
-
+print("How many times do you want to run through the grid")
+local loops = io.read()
 -- TO DO: add a check to see if seeds/crop are full and to deposit if so
 -- Add state to remember where the turtle was located before deposit
 
@@ -110,11 +111,13 @@ function Farm.farmCrop()
 end
 
 function Farm.handleRow()
-    for i = crops, 1, -1 do
-        Farm.checkCrop()
-        Farm.nextCrop()
+    for i = loops, 1, -1 do
+        for i = crops, 1, -1 do
+            Farm.checkCrop()
+            Farm.nextCrop()
+        end
+        Farm.depositLoot()
     end
-    Farm.depositLoot()
 end
 
 Farm.handleRow()
